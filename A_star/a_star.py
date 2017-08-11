@@ -127,6 +127,8 @@ def compute_heuristic_cost(curr, end, metric='euclid'):
     """
     if metric == 'euclid':
         return euclid_distance(curr, end)
+    if metric == 'manhattan':
+        return curr - end
 
 
 def reconstruct_path(path_map, start, end):
