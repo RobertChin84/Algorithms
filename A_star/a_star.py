@@ -1,12 +1,14 @@
 """
 This script will handle the algorithm for A* algorithm as described here
 https://en.wikipedia.org/wiki/A*_search_algorithm
+
+REquires python 3+
 """
 from itertools import product
 from numpy import Infinity
-from sys import maxint
+from sys import maxsize
 
-
+# TODO: 
 class Point(object):
     id = 0
 
@@ -62,14 +64,14 @@ class Grid(object):
 
     def print_grid(self):
         for row in self.grid:
-            print ' '.join(['({}, {})'.format(r.data, r.id) for r in row])
+            print(' '.join(['({}, {})'.format(r.data, r.id) for r in row]))
 
     def print_neighbours(self):
         max_
         for row in self.grid:
             for r in row:
 
-                print 'id: {}'.format(r.id), ' '.join([str(n.id) for n in r.neighbours])
+                print('id: {}'.format(r.id), ' '.join([str(n.id) for n in r.neighbours]))
 
     def get_point(self, indices):
         row_index, col_index = indices
@@ -83,12 +85,12 @@ def generate_point_matrix(filename=None):
     :return:
         data: [['o','x','o'],['o','o','o']]
     """
-    nums = iter(xrange(maxint))
+    nums = iter(range(maxsize))
     assert filename
     k = 1
-    with open(filename, 'rb') as f:
+    with open(filename, 'r') as f:
 
-        data = [[Point(i, j, nums.next(), r)
+        data = [[Point(i, j, next(nums), r)
                 for (j, r) in enumerate(row.strip())]
                 for (i, row) in enumerate(f.readlines())]
     return data
@@ -205,18 +207,18 @@ def A_star(start_point, end_point, grid):
 
 
 if __name__ == "__main__":
-    points = generate_point_matrix('./resources/matrix_test.txt")
-    print len(points), len(points[0])
+    points = generate_point_matrix('./resources/matrix_test.txt')
+    print('Size of grid: {} x {}'.format(len(points), len(points[0])) )
     grid = Grid(points)
     start = [0,0]
     end = [4, 4]
     grid.print_grid()
     #grid.print_neighbours()
     actual_came_from = A_star(start, end, grid)
-    print "*" * 40
-    print "Output ids for the route"
-    print "*" * 40
-    print [n.id for n in actual_came_from]
+    print("*" * 40)
+    print("Output ids for the route")
+    print("*" * 40)
+    print([n.id for n in actual_came_from])
 
 
 
